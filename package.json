@@ -1,0 +1,25 @@
+{
+  "name": "epic-team-roster",
+  "version": "1.0.0",
+  "description": "Team Roster For Employees",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mike2481/Epic-Team-Roster.git"
+  },
+  "author": "Michael Gordon",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Mike2481/Epic-Team-Roster/issues"
+  },
+  "homepage": "https://github.com/Mike2481/Epic-Team-Roster#readme",
+  "devDependencies": {
+    "jest": "^27.4.7"
+  }
+}
