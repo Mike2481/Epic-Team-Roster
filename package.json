@@ -21,5 +21,10 @@
   "homepage": "https://github.com/Mike2481/Epic-Team-Roster#readme",
   "devDependencies": {
     "jest": "^27.4.7"
+  },
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "inquirer": "^8.2.0",
+    "path": "^0.12.7"
   }
 }
