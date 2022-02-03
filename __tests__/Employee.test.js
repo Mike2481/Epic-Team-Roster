@@ -15,6 +15,13 @@ test('gets the employee name', () => {
     expect(employee.getName()).toEqual('Mike');
 });
 
+test('gets the employee name', () => {
+    var name = 'Mike'
+    const employee = new Employee(name);
+
+    expect(employee.getName()).toEqual(name);
+});
+
 test('gets the employee id', () => {
     const employee = new Employee('Mike', 55, 'myemail@gmail.com');
 
