@@ -2,6 +2,7 @@
 // TO field of the email with the address
 
 const generateRoster = roster => {
+    console.log(roster);
 
 
     const generateManager = managerArr => {
@@ -17,7 +18,7 @@ const generateRoster = roster => {
                 <li class="list-group-item">${managerArr.officeNumber}</li>
             </ul>
         </section>
-        `
+        `;
     };
 
     const generateEngineer = engineerArr => {
@@ -33,7 +34,7 @@ const generateRoster = roster => {
                 <li class="list-group-item">${engineerArr.github}</li>
             </ul>
         </section>
-        `
+        `;
 
     };
 
@@ -50,17 +51,16 @@ const generateRoster = roster => {
                 <li class="list-group-item">${InternArr.school}</li>
             </ul>
         </section>
-        `
+        `;
 
     };
 
-        // need to push cards to array - not sure when to do it
-    const html = [];
-
-
-}
-
+        html = [];
+        
+};
+        
 module.exports = roster => {
+
     return `
         <!DOCTYPE html>
         <html lang="en">
@@ -97,11 +97,7 @@ module.exports = roster => {
 
 
     
-    `
-}
+    `;
+    };
 
-// Need function for generating Engineer card
 
-// Need function for generating Intern card
-
-// Need function for generating HTML page and pass cards in (maybe and array?)
