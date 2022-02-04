@@ -78,13 +78,27 @@ const managerInput = () => {
         }
 
     ])
+
     .then(managerData => {
         const { managerName, id, email, office } = managerData;
         const manager = new Manager (managerName, id, email, office);
 
         console.log(manager);
         rosterArray.push(manager);
-    })
+         menu()
+
+         
+    })    
+    
+    // .then(managerData => {
+    //     const { managerName, id, email, office } = managerData;
+    //     const manager = new Manager (managerName, id, email, office);
+
+    //     console.log(manager);
+    //     rosterArray.push(manager);
+    //     console.log(rosterArray);
+    //     menu();
+    // })
 
 };
 
@@ -112,7 +126,7 @@ function menu() {
                 addIntern();
                 break;
             // case "None - I'm finished building my team":
-            //     break;
+            //     return rosterArray;
         }
     
     })
@@ -200,7 +214,7 @@ function addEngineer () {
             rosterArray.push(engineer);
 
             if (addEmployee) {
-                return menu(rosterArray); //Do I pass something in here?
+                menu(rosterArray); //Do I pass something in here?
             } else {
                 console.log(rosterArray);
                 return rosterArray;
@@ -292,7 +306,7 @@ function addEngineer () {
             rosterArray.push(intern);
 
             if (addEmployee) {
-                return menu(rosterArray);
+                menu(rosterArray);
             } else {
                 return rosterArray;
             }
@@ -313,7 +327,7 @@ const writeFile = data => {
 
 
 managerInput()
-    .then(menu)
+    // .then(menu)
     .then(rosterArray => {
         console.log(rosterArray);
         return generateHTML(rosterArray);
