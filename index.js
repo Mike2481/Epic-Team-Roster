@@ -28,16 +28,7 @@ const managerInput = () => {
         {
             type: 'number',
             name: 'id',
-            message: "Please enter your Team Manager's ID",  // validation does not work - get's stuck on NaN
-            // validate: idInput => {
-            //     const goodId = String(idInput).match(/^[1-9]\d*$/)
-            //     if (goodId) {
-            //         return true;
-            //     } else {
-            //         console.log("Please enter valid ID");
-            //         return false;
-            //     }
-            // }
+            message: "Please enter your Team Manager's ID", 
             validate: idInput => {
                 if (idInput) {
                     return true;
@@ -67,7 +58,8 @@ const managerInput = () => {
         {
             type: 'input',
             name: 'office',
-            message: "What is your Manager's office number?",  
+            message: "What is your Manager's office number?",  // returns a string and not a number
+
             validate: officeInput => {
                 if (officeInput) {
                     return true;
@@ -85,234 +77,135 @@ const managerInput = () => {
 
         console.log(manager);
         rosterArray.push(manager);
-         menu()
+        // menu()
 
          
     })    
-    
-    // .then(managerData => {
-    //     const { managerName, id, email, office } = managerData;
-    //     const manager = new Manager (managerName, id, email, office);
-
-    //     console.log(manager);
-    //     rosterArray.push(manager);
-    //     console.log(rosterArray);
-    //     menu();
-    // })
-
 };
 
-function menu() {
+const employeeQuestions = () => {
     return inquirer.prompt ([
+
         {
             type: 'list',
             name:'role',
             message: "Please select Employee's role",
             choices: [
-                // "None - I'm finished building my team", // need a way to exit prompt if none is selected
                 'Engineer',
                 'Intern',
             ]
+        },
+        {
+            type: 'input',
+            name: 'name',
+            message: "What's the employees name?",
+            validate: nameInput => {
+                if (nameInput) {
+                    return true;
+                } else {
+                    console.log('Please provide the name');
+                    return false;
+                }
+            }
+        },
+        {
+            type: 'number',
+            name: 'id',
+            message: "Please enter the employee's ID",  // validation does not work - get's stuck on NaN
+            // validate: idInput => {
+            //     const goodId = idInput.match('/^[1-9]\d*$/')
+            //     if (goodId) {
+            //         return true;
+            //     } else {
+            //         console.log("Please enter valid ID");
+            //         return false;
+            //     }
+            // }
+            validate: idInput => {
+                if (idInput) {
+                    return true;
+                } else {
+                    console.log("Please provide a valid ID");
+                    return false;
+                }
+            }
+        },
+        {
+            type: 'input',
+            name: 'email',
+            message: "Please enter the employee's Email Address",
+            validate: function (email) {
+    
+                valid = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()\.,;\s@\"]+\.{0,1})+([^<>()\.,;:\s@\"]{2,}|[\d\.]+))$/.test(email)
+                // this was found by googling how to validate inquirer email - Regex mail check
+
+                if (valid) {
+                    return true;
+                } else {
+                    console.log("Please enter a valid email address")
+                    return false;
+                }
+            }
+        },
+        {
+            type: 'input',
+            name: 'github',
+            message: "What is the Engineer's github username?",
+            when: (input) => input.role === 'Engineer',
+            validate: nameInput => {
+                if (nameInput) {
+                    return true;
+                } else {
+                    console.log('Please provide a github username');
+                    return false;
+                }
+            }
+        },
+        {
+            type: 'input',
+            name: 'school',
+            message: "What is the Intern's school",
+            when: (input) => input.role === 'Intern',
+            validate: nameInput => {
+                if (nameInput) {
+                    return true;
+                } else {
+                    console.log('Please provide a valid school');
+                    return false;
+                }
+            }
+        },
+        {
+            type: 'confirm',
+            name: 'addEmployee',
+            message: 'Would you like to add another Employee?',
+            default: false
         }
+
     ])
-    .then((answers) => {
-        //switch case to direct user to the appropriate function
-        switch (answers.role) {
-            case 'Engineer':
-                console.log('testing output');
-                addEngineer();
-                break;
-            case 'Intern':
-                addIntern();
-                break;
-            // case "None - I'm finished building my team":
-            //     return rosterArray;
+    .then(employeeData => {
+        const { name, id, email, role, github, school, addEmployee } = employeeData;
+
+        let employee;
+        if (role === 'Engineer') {
+            employee = new Engineer (name, id, email, github);
+            console.log(employee);
+        } else if (role === 'Intern') {
+            employee = new Intern (name, id, email, school);
+            console.log(employee);
         }
-    
-    })
-}
 
-function addEngineer () {
-        return inquirer.prompt ([
-            {
-                type: 'input',
-                name: 'engineerName',
-                message: "What is the Engineer's Name? (Required)",  
-                validate: engineerInput => {
-                    if (engineerInput) {
-                        return true;
-                    } else {
-                        console.log("Please enter the Engineer's Name");
-                        return false;
-                    }
-                }
-            },
-            {
-                type: 'number',
-                name: 'id',
-                message: "Please enter the Engineer's ID",  // validation does not work - get's stuck on NaN
-                // validate: idInput => {
-                //     const goodId = idInput.match('/^[1-9]\d*$/')
-                //     if (goodId) {
-                //         return true;
-                //     } else {
-                //         console.log("Please enter valid ID");
-                //         return false;
-                //     }
-                // }
-                validate: idInput => {
-                    if (idInput) {
-                        return true;
-                    } else {
-                        console.log("Please provide a valid ID");
-                        return false;
-                    }
-                }
-    
-            },
-            {
-                type: 'input',
-                name: 'email',
-                message: "Please enter the Engineer's Email Address",
-                validate: function (email) {
-        
-                    valid = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()\.,;\s@\"]+\.{0,1})+([^<>()\.,;:\s@\"]{2,}|[\d\.]+))$/.test(email)
-                    // this was found by googling how to validate inquirer email - Regex mail check
-    
-                    if (valid) {
-                        return true;
-                    } else {
-                        console.log("Please enter a valid email address")
-                        return false;
-                    }
-                }
-            },
-            {
-                type: 'input',
-                name: 'github',
-                message: "What is the Engineer's GitHub username?",  
-                validate: githubInput => {
-                    if (githubInput) {
-                        return true;
-                    } else {
-                        console.log("Please enter a valid username")
-                    }
-                }
-            },
-            {
-                type: 'confirm',
-                name: 'addEmployee',
-                message: 'Would you like to add another Employee?',
-                default: false
-            }
-    
-        ])
-        .then(engineerData => {
-            const { engineerName, id, email, github, addEmployee } = engineerData;
-            const engineer = new Engineer (engineerName, id, email, github);
-    
-            rosterArray.push(engineer);
+        rosterArray.push(employee);
 
-            if (addEmployee) {
-                menu(rosterArray); //Do I pass something in here?
-            } else {
-                console.log(rosterArray);
-                return rosterArray;
-            }
-        })
-    
-    };
-    
+        if (addEmployee) {
+            return employeeQuestions(rosterArray);
+        } else {
+            return rosterArray;
+        }
+    })    
+};
+//  rosterArray returns all data
 
-    const addIntern = () => {
-        return inquirer.prompt ([
-            {
-                type: 'input',
-                name: 'internName',
-                message: "What is the Intern's Name? (Required)",  
-                validate: internInput => {
-                    if (internInput) {
-                        return true;
-                    } else {
-                        console.log("Please enter the Intern's Name");
-                        return false;
-                    }
-                }
-            },
-            {
-                type: 'number',
-                name: 'id',
-                message: "Please enter the Intern's ID",  // validation does not work - get's stuck on NaN
-                // validate: idInput => {
-                //     const goodId = idInput.match('/^[1-9]\d*$/')
-                //     if (goodId) {
-                //         return true;
-                //     } else {
-                //         console.log("Please enter valid ID");
-                //         return false;
-                //     }
-                // }
-                validate: idInput => {
-                    if (idInput) {
-                        return true;
-                    } else {
-                        console.log("Please provide a valid ID");
-                        return false;
-                    }
-                }
-    
-            },
-            {
-                type: 'input',
-                name: 'email',
-                message: "Please enter the Intern's Email Address",
-                validate: function (email) {
-        
-                    valid = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()\.,;\s@\"]+\.{0,1})+([^<>()\.,;:\s@\"]{2,}|[\d\.]+))$/.test(email)
-                    // this was found by googling how to validate inquirer email - Regex mail check
-    
-                    if (valid) {
-                        return true;
-                    } else {
-                        console.log("Please enter a valid email address")
-                        return false;
-                    }
-                }
-            },
-            {
-                type: 'input',
-                name: 'school',
-                message: "What is the Intern's school?",  
-                validate: schoolInput => {
-                    if (schoolInput) {
-                        return true;
-                    } else {
-                        console.log("Please enter a school name")
-                    }
-                }
-            },
-            {
-                type: 'confirm',
-                name: 'addEmployee',
-                message: 'Would you like to add another Employee?',
-                default: false
-            }
-    
-        ])
-        .then(internData => {
-            const { internName, id, email, school, addEmployee } = internData;
-            const intern = new Intern (internName, id, email, school);
-    
-            rosterArray.push(intern);
-
-            if (addEmployee) {
-                menu(rosterArray);
-            } else {
-                return rosterArray;
-            }
-        })
-    
-    };
 
 const writeFile = data => {
     fs.writeFile('./dist/index.html', data, err => {
@@ -327,14 +220,14 @@ const writeFile = data => {
 
 
 managerInput()
-    // .then(menu)
+    .then(employeeQuestions)
     .then(rosterArray => {
         console.log(rosterArray);
-        return generateHTML(rosterArray);
-    })
-    .then(resultHTML => {
-        return writeFile(resultHTML);
-    })
-    .catch(err => {
-        console.log(err);
+    //     return generateHTML(rosterArray);
+    // })
+    // .then(resultHTML => {
+    //     return writeFile(resultHTML);
+    // })
+    // .catch(err => {
+    //     console.log(err);
     });
