@@ -4,7 +4,7 @@
 const generateManager = managerArr => {
     return `
     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mt-4">
-    <div class="card h-100 text-white bg-light border-primary rounded mb-3 shadow" >
+    <div class="card h-100 text-white bg-light border-primary rounded mb-3 shadow shadow-intensity-lg" >
         <div class="card-body bg-primary">
             <h3 class="card-title text-center"> ${managerArr.name} </h3>
             <h4 class="card-text text-center"><i class="fas fa-coffee"></i> Manager</h4>
@@ -26,7 +26,7 @@ const generateManager = managerArr => {
 const generateEngineer = engineerArr => {
     return `
     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mt-4">
-    <div class="card h-100 text-white bg-light border-primary rounded mb-3 shadow" >
+    <div class="card h-100 text-white bg-light border-primary rounded mb-3 shadow shadow-intensity-lg" >
         <div class="card-body bg-primary">
             <h3 class="card-title text-center"> ${engineerArr.name} </h3>
             <h4 class="card-text text-center"><i class="fas fa-glasses"></i> Engineer</h4>
@@ -48,7 +48,7 @@ const generateEngineer = engineerArr => {
 const generateIntern = internArr => {
     return `
     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mt-4">
-    <div class="card h-100 text-white bg-light border-primary rounded mb-3 shadow" >
+    <div class="card h-100 text-white bg-light border-primary rounded mb-3 shadow shadow-intensity-lg" >
         <div class="card-body bg-primary">
             <h3 class="card-title text-center"> ${internArr.name} </h3>
             <h4 class="card-text text-center"><i class="fas fa-graduation-cap"></i> Intern</h4>
