@@ -1,15 +1,17 @@
+// need to use inquirer and fs
 const inquirer = require('inquirer');
 const fs = require('fs');
+// bring in all data from generateHTML file
 const createHTML = require('./src/generateHTML');
-
+// bring in classes - employee isn't needed since it's used as super
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 
 const path = require('path');
-
+// empty array to store all results from inquirer prompts
 const rosterArray = [];
-
+// manager specific prompt that will run at start 
 const managerInput = () => {
     return inquirer.prompt ([
         {
@@ -26,16 +28,14 @@ const managerInput = () => {
             }
         },
         {
-            type: 'number',
+            type: 'input',
             name: 'id',
             message: "Please enter your Team Manager's ID", 
-            validate: idInput => {
-                if (idInput) {
-                    return true;
-                } else {
-                    console.log("Please provide a valid ID");
-                    return false;
-                }
+            // validation for number - this took forever to figure out
+            validate: (answer) => {
+                return (isNaN(answer)) ? console.log('please enter a number')
+                : (answer == '') ? console.log('please enter a number')
+                : true;
             }
         },
         {
@@ -59,7 +59,8 @@ const managerInput = () => {
             type: 'input',
             name: 'officeNumber',
             message: "What is your Manager's office number?",  // returns a string and not a number
-
+            // validation not made for number only since an office number
+            // could be alphanumeric
             validate: officeInput => {
                 if (officeInput) {
                     return true;
@@ -70,7 +71,8 @@ const managerInput = () => {
         }
 
     ])
-
+    // takes results, creates a new manager using required manager.js
+    // then adds that result to array
     .then(managerData => {
         const { name, id, email, officeNumber } = managerData;
         const manager = new Manager (name, id, email, officeNumber);
@@ -86,11 +88,13 @@ const employeeQuestions = () => {
             type: 'list',
             name:'role',
             message: "Please select Employee's role",
+            // allows user to choose type of employee to add
             choices: [
                 'Engineer',
                 'Intern',
             ]
         },
+        // name, id, and email are used for both
         {
             type: 'input',
             name: 'name',
@@ -105,25 +109,13 @@ const employeeQuestions = () => {
             }
         },
         {
-            type: 'number',
+            type: 'input',
             name: 'id',
-            message: "Please enter the employee's ID",  // validation does not work - get's stuck on NaN
-            // validate: idInput => {
-            //     const goodId = idInput.match('/^[1-9]\d*$/')
-            //     if (goodId) {
-            //         return true;
-            //     } else {
-            //         console.log("Please enter valid ID");
-            //         return false;
-            //     }
-            // }
-            validate: idInput => {
-                if (idInput) {
-                    return true;
-                } else {
-                    console.log("Please provide a valid ID");
-                    return false;
-                }
+            message: "Please enter the employee's ID", 
+            validate: (answer) => {
+                return (isNaN(answer)) ? console.log('please enter a number')
+                : (answer == '') ? console.log('please enter a number')
+                : true;
             }
         },
         {
@@ -143,6 +135,7 @@ const employeeQuestions = () => {
                 }
             }
         },
+        // if engineer was selected, this will call for github username
         {
             type: 'input',
             name: 'github',
@@ -157,6 +150,7 @@ const employeeQuestions = () => {
                 }
             }
         },
+        // if intern was selected, this will call for school
         {
             type: 'input',
             name: 'school',
@@ -171,6 +165,7 @@ const employeeQuestions = () => {
                 }
             }
         },
+        // allows user to add another employee, or exit this prompt
         {
             type: 'confirm',
             name: 'addEmployee',
@@ -179,6 +174,7 @@ const employeeQuestions = () => {
         }
 
     ])
+    // gathers all data and creates employee bases off role selected
     .then(employeeData => {
         const { name, id, email, role, github, school, addEmployee } = employeeData;
 
@@ -188,19 +184,24 @@ const employeeQuestions = () => {
         } else if (role === 'Intern') {
             employee = new Intern (name, id, email, school);
         }
-
+        // pushes the created employee to the array with manager
         rosterArray.push(employee);
 
         if (addEmployee) {
+            // if user wants to add another employee, this starts
+            // the prompt over but retains newly added data to array
             return employeeQuestions(rosterArray);
         } else {
+            // once all employees are added, the array will be returned
+            // so it can be used in the generateHTML.js file
             return rosterArray;
         }
     })    
 };
 //  rosterArray returns all data
 
-
+// function takes the resulting data from generateHTML.js file to create
+// the new index.html file
 const writeFile = data => {
     fs.writeFile('./dist/index.html', data, err => {
         if (err) {
@@ -212,7 +213,7 @@ const writeFile = data => {
     })
 };
 
-
+// async 
 managerInput()
     .then(employeeQuestions)
     .then(rosterArray => {

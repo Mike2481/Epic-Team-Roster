@@ -1,10 +1,13 @@
+// function to generate manager card using data supplied by user
+// mailto is used to make email pop up when link is clicked
+
 const generateManager = managerArr => {
     return `
     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mt-4">
-    <div class="card h-100 text-white bg-light border-primary rounded mb-3" >
+    <div class="card h-100 text-white bg-light border-primary rounded mb-3 shadow" >
         <div class="card-body bg-primary">
-            <h3 class="card-title"> ${managerArr.name} </h3>
-            <h4 class="card-text"><i class="fas fa-coffee"></i> Manager</h4>
+            <h3 class="card-title text-center"> ${managerArr.name} </h3>
+            <h4 class="card-text text-center"><i class="fas fa-coffee"></i> Manager</h4>
         </div>
         <ul class="text-dark list-group list-group-flush text-black p-4">
             <li class="list-group-item">ID: ${managerArr.id}</li>
@@ -16,18 +19,22 @@ const generateManager = managerArr => {
 `;
 };
 
+// function to generate engineer card using data supplied by user
+// github username is added into HTML to generate a link to the page
+
+
 const generateEngineer = engineerArr => {
     return `
     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mt-4">
-    <div class="card h-100 text-white bg-light border-primary rounded mb-3" >
+    <div class="card h-100 text-white bg-light border-primary rounded mb-3 shadow" >
         <div class="card-body bg-primary">
-            <h3 class="card-title"> ${engineerArr.name} </h3>
-            <h4 class="card-text"><i class="fas fa-glasses"></i> Engineer</h4>
+            <h3 class="card-title text-center"> ${engineerArr.name} </h3>
+            <h4 class="card-text text-center"><i class="fas fa-glasses"></i> Engineer</h4>
         </div>
         <ul class="text-dark list-group list-group-flush text-black p-4">
             <li class="list-group-item">ID: ${engineerArr.id}</li>
             <li class="list-group-item">Email: <a href="mailto:${engineerArr.email}">Engineer's Email</a></li> 
-            <li class="list-group-item">GitHub: ${engineerArr.github}</li>
+            <li class="list-group-item">GitHub: <a href="https://github.com/${engineerArr.github}" target="_blank">${engineerArr.github}</a></li>
         </ul>
     </div>
 </div>
@@ -35,13 +42,16 @@ const generateEngineer = engineerArr => {
 
 };
 
+// function to generate intern card using data supplied by user
+
+
 const generateIntern = internArr => {
     return `
     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mt-4">
-    <div class="card h-100 text-white bg-light border-primary rounded mb-3" >
+    <div class="card h-100 text-white bg-light border-primary rounded mb-3 shadow" >
         <div class="card-body bg-primary">
-            <h3 class="card-title"> ${internArr.name} </h3>
-            <h4 class="card-text"><i class="fas fa-graduation-cap"></i> Intern</h4>
+            <h3 class="card-title text-center"> ${internArr.name} </h3>
+            <h4 class="card-text text-center"><i class="fas fa-graduation-cap"></i> Intern</h4>
         </div>
         <ul class="text-dark list-group list-group-flush text-black p-4">
             <li class="list-group-item">ID: ${internArr.id}</li>
@@ -55,13 +65,14 @@ const generateIntern = internArr => {
 };
 
 createHTML = (employeeData) => {
-
+    // empty array to pass all the generated cards into
     createdCards = [];
-
+    //  loops through each result from inquirer
     for (let i=0; i < employeeData.length; i++) {
         let employee = employeeData[i];
         let role = employee.getRole();
-
+        // role determines which function is called and data from inquirer
+        // is passed in
         if (role === 'Manager') {
             const managerCard = generateManager(employee);
             createdCards.push(managerCard);
@@ -77,8 +88,11 @@ createHTML = (employeeData) => {
 
     }
     console.log(createdCards);
+    // join all created cards to use in next function
     const rosterCards = createdCards.join('')
+    // function to generate HTML gets all card data passed in 
     const teamRoster = generateTeamRosterPage(rosterCards);
+    // generated HTML is then returned and sent to index.js
     return teamRoster;
 }
 
@@ -108,10 +122,10 @@ href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     
 </head>
 <body>
-<header class="text-center bg-danger text-white font-size-large" style="height: 8rem;">
-    <h1>My Epic Team!</h1>
+<header class="text-center bg-danger text-white font-size-large m-3 rounded" style="height: 8rem;">
+    <h1 class="display-3 p-2">My Epic Team!</h1>
 </header>
-<section class="row justify-content-center">
+<section class="row justify-content-center p-5">
     ${rosterCards}
 </section>
 

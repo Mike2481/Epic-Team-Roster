@@ -1,5 +1,7 @@
 const Manager = require('../lib/Manager');
 
+//  Test for manager specific data - office number and Manager Role
+
 test('creates manager object', () => {
     const manager = new Manager('Mike', 55, 'myemail@gmail.com', 223);
 

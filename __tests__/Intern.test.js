@@ -1,5 +1,8 @@
 const Intern = require('../lib/Intern');
 
+//  Test for Intern specific data - school and Intern Role
+
+
 test('creates intern object', () => {
     const intern = new Intern('Mike', 55, 'myemail@gmail.com', 'MSU');
 

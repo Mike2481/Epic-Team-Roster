@@ -1,5 +1,6 @@
 const Engineer = require('../lib/Engineer');
 
+//  Test for engineer specific data - github and Engineer Role
 test('creates an engineer object', () => {
     const engineer = new Engineer('Mike', 55, 'myemail@gmail.com', 'Mike2481');
 
