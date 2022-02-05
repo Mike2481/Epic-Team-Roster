@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
-const generateHTML = require('./src/generateHTML');
+const createHTML = require('./src/generateHTML');
 
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
@@ -14,7 +14,7 @@ const managerInput = () => {
     return inquirer.prompt ([
         {
             type: 'input',
-            name: 'managerName',
+            name: 'name',
             message: "What is your Team Manager's Name? (Required)",  
             validate: managerInput => {
                 if (managerInput) {
@@ -57,7 +57,7 @@ const managerInput = () => {
         },
         {
             type: 'input',
-            name: 'office',
+            name: 'officeNumber',
             message: "What is your Manager's office number?",  // returns a string and not a number
 
             validate: officeInput => {
@@ -72,14 +72,10 @@ const managerInput = () => {
     ])
 
     .then(managerData => {
-        const { managerName, id, email, office } = managerData;
-        const manager = new Manager (managerName, id, email, office);
+        const { name, id, email, officeNumber } = managerData;
+        const manager = new Manager (name, id, email, officeNumber);
 
-        console.log(manager);
         rosterArray.push(manager);
-        // menu()
-
-         
     })    
 };
 
@@ -189,10 +185,8 @@ const employeeQuestions = () => {
         let employee;
         if (role === 'Engineer') {
             employee = new Engineer (name, id, email, github);
-            console.log(employee);
         } else if (role === 'Intern') {
             employee = new Intern (name, id, email, school);
-            console.log(employee);
         }
 
         rosterArray.push(employee);
@@ -222,12 +216,11 @@ const writeFile = data => {
 managerInput()
     .then(employeeQuestions)
     .then(rosterArray => {
-        console.log(rosterArray);
-    //     return generateHTML(rosterArray);
-    // })
-    // .then(resultHTML => {
-    //     return writeFile(resultHTML);
-    // })
-    // .catch(err => {
-    //     console.log(err);
+        return createHTML(rosterArray);
+    })
+    .then(resultHTML => {
+        return writeFile(resultHTML);
+    })
+    .catch(err => {
+        console.log(err);
     });
