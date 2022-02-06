@@ -41,6 +41,7 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 ## Tests
 
 There are 4 test suites and 19 total tests written to test all constructors and methods.  Video walkthroughs are available for "how to"
+
 *[testing](https://youtu.be/0M3lPChT17M)
 
 *[code makeup](https://youtu.be/GIzpbMxctRU)
